@@ -31,6 +31,7 @@ resource "aws_security_group_rule" "rds_egress" {
 }
 
 resource "aws_db_instance" "postgres" {
+  identifier = "nexus-db-instance"
   allocated_storage          = 20
   engine                     = "postgres"
   engine_version             = "16"
