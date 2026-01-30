@@ -36,4 +36,16 @@ resource "aws_elastic_beanstalk_environment" "env" {
     name      = "PORT"
     value     = "3000"
   }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "DB_PASSWORD"
+    value     = var.db_password
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "DATABASE_URL"
+    value     = "postgresql://${var.db_user}:${var.db_password}@${aws_db_instance.postgres.address}/${var.db_name}?port=5432"
+  }
 }

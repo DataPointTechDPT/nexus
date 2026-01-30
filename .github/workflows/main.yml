@@ -60,10 +60,24 @@ jobs:
           node-version: 22
           cache: 'npm'
 
-      - name: Install & Build
+      - name: Install
         run: |
           npm install
-          npm run build
+
+      - name: Get RDS Host from Terraform
+        id: get_db_host
+        run: |
+          echo "host=$(terraform output -raw rds_hostname)" >> $GITHUB_OUTPUT
+
+      - name: Run Prisma Migrations
+        run: npm run prisma:migrate:prod
+        env:
+          DATABASE_URL: postgresql://nexus_admin:${{ secrets.DB_PASSWORD }}@${{ steps.get_db_host.outputs.host }}/nest_db
+
+      - name: Build and Generate Client
+        run: |
+            npm run prisma:generate
+            npm run build
 
       - name: Create Deployment Package
         run: zip -r deploy.zip . -x "*.git*" "node_modules/*" "terraform/*"
