@@ -30,7 +30,6 @@ resource "aws_security_group_rule" "rds_egress" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
-# 2. RDS PostgreSQL Instance
 resource "aws_db_instance" "postgres" {
   allocated_storage          = 20
   engine                     = "postgres"
