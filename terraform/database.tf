@@ -44,7 +44,6 @@ resource "aws_db_instance" "postgres" {
   publicly_accessible        = true
   vpc_security_group_ids     = [aws_security_group.rds_sg.id]
   auto_minor_version_upgrade = true
-  apply_immediately = true
 }
 
 data "aws_security_group" "eb_sg" {
